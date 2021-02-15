@@ -21,14 +21,23 @@ CREATE TABLE `tweeter` (\
   `text` varchar(400) DEFAULT NULL\
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;\
 \
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `boticario`.`consolidado_ano_mes` AS select month(`boticario`.`data`.`DATA_VENDA`) AS `MONTH(DATA_VENDA)`,year(`boticario`.`data`.`DATA_VENDA`) AS `YEAR(DATA_VENDA)`,sum(`boticario`.`data`.`QTD_VENDA`) AS `SUM(QTD_VENDA)` from `boticario`.`data` group by month(`boticario`.`data`.`DATA_VENDA`),year(`boticario`.`data`.`DATA_VENDA`);\
+CREATE VIEW boticario.tabela1 AS\
+SELECT MONTH(DATA_VENDA) as mes, YEAR(DATA_VENDA) as ano, SUM(QTD_VENDA) as vendas\
+from boticario.data\
+GROUP BY MONTH(DATA_VENDA), YEAR(DATA_VENDA)\
 \
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `boticario`.`consolidado_linha_ano_mes` AS select `boticario`.`data`.`LINHA` AS `LINHA`,month(`boticario`.`data`.`DATA_VENDA`) AS `MONTH(DATA_VENDA)`,year(`boticario`.`data`.`DATA_VENDA`) AS `YEAR(DATA_VENDA)`,sum(`boticario`.`data`.`QTD_VENDA`) AS `SUM(QTD_VENDA)` from `boticario`.`data` group by `boticario`.`data`.`LINHA`,month(`boticario`.`data`.`DATA_VENDA`),year(`boticario`.`data`.`DATA_VENDA`);\
+CREATE VIEW boticario.tabela2 AS\
+SELECT MARCA, LINHA, SUM(QTD_VENDA) as vendas\
+from boticario.data\
+GROUP BY MARCA, LINHA\
 \
-ENGINE=InnoDB DEFAULT CHARSET=CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `boticario`.`consolidado_marca_ano_mes` AS select `boticario`.`data`.`MARCA` AS `MARCA`,month(`boticario`.`data`.`DATA_VENDA`) AS `MONTH(DATA_VENDA)`,year(`boticario`.`data`.`DATA_VENDA`) AS `YEAR(DATA_VENDA)`,sum(`boticario`.`data`.`QTD_VENDA`) AS `SUM(QTD_VENDA)` from `boticario`.`data` group by `boticario`.`data`.`MARCA`,month(`boticario`.`data`.`DATA_VENDA`),year(`boticario`.`data`.`DATA_VENDA`);\
-utf8mb4 COLLATE=utf8mb4_0900_ai_ci;\
+CREATE VIEW boticario.tabela3 AS\
+SELECT MARCA, MONTH(DATA_VENDA) as mes, YEAR(DATA_VENDA) as ano, SUM(QTD_VENDA) as vendas\
+from boticario.data\
+GROUP BY MARCA, MONTH(DATA_VENDA), YEAR(DATA_VENDA)\
 \
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `boticario`.`consolidado_marca_linha` AS select `boticario`.`data`.`MARCA` AS `MARCA`,`boticario`.`data`.`LINHA` AS `LINHA`,sum(`boticario`.`data`.`QTD_VENDA`) AS `SUM(QTD_VENDA)` from `boticario`.`data` group by `boticario`.`data`.`MARCA`,`boticario`.`data`.`LINHA`;\
-\
-\
+CREATE VIEW boticario.tabela4 AS\
+SELECT LINHA, MONTH(DATA_VENDA) as mes, YEAR(DATA_VENDA) as ano, SUM(QTD_VENDA) as vendas\
+from boticario.data\
+GROUP BY LINHA, MONTH(DATA_VENDA), YEAR(DATA_VENDA)\
 }
